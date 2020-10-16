@@ -1,0 +1,147 @@
+2020-02-12  Kirit Saelensminde  <kirit@felspar.com>
+ * Add middleware that can replace response text with fixed strings or setting values.
+ * Deprecate use of view instances.
+
+2019-11-06  Kirit Saelensminde  <kirit@felspar.com>
+ Add a reverse proxy view that allows for changes in request and response.
+
+2019-08-26  Tle Ekkul  <e.aryuth@gmail.com>
+ Add Fost-Request-ID in every requests and response
+
+2019-08-06  Pattarawut Imamnuaysup  <pattarawut@hot-now.com>
+ Add a return for status condition control when an if condition fails without else condition
+
+2019-04-11  Kirit Saelensminde  <kirit@felspar.com>
+ Add JSON directory listing view and ability to choose directory listing view for the static file server.
+
+2019-04-09  Kirit Saelensminde  <kirit@felspar.com>
+ * The web server takes a `-C` option which changes its current directory
+ * Text files ('text/` Content-Type) are served as UTF8.
+
+2019-03-05  Kirit Saelensminde  <kirit@felspar.com>
+ The `test.throw` view now allows new exception throwers to be added.
+
+2019-01-23  Kirit Saelensminde  <kirit@felspar.com>
+ Add `test.throw` view to help with testing and `control.exception.catch` for running alternative views when exceptions are thrown.
+
+2019-01-09  Sem  <cloudtimewater@gmail.com>
+ Fix fost.proxy.transparent. Pass the correct path.
+
+2018-12-26  Tle Ekkul  <e.aryuth@gmail.com>
+ Add fost.control.status-condition view
+
+2018-12-20  Tle Ekkul  <e.aryuth@gmail.com>
+ Add fost.schema.validate view
+
+2018-05-20  Kirit Saelensminde  <kirit@felspar.com>
+ Add a pathname view and a file serving view.
+
+2017-07-11  Kirit Saelensminde  <kirit@felspar.com>
+ The template middleware now uses the headers from the wrapped view instead of throwing them away.
+
+2017-06-27  Kirit Saelensminde  <kirit@felspar.com>
+ Logging middleware also records the processing duration.
+
+2017-01-03  Kirit Saelensminde  <kirit@felspar.com>
+ Log better information about failed HTTP requests to the server.
+
+2016-11-03  Kirit Saelensminde  <kirit@felspar.com>
+ Load shared objects before setting up the logger so that optional loggers can be loaded.
+
+2016-10-08  Kirit Saelensminde  <kirit@felspar.com>
+ * Add a generic 200 response.
+ * Web view execution now gives a stack trace when an exception is thrown.
+
+2016-09-23  Kirit Saelensminde  <kirit@felspar.com>
+ * Improved error output where a view name is misconfigured.
+ * Removed the old `router` function as it's been replaced by `view::execute`.
+
+2016-09-17  Kirit Saelensminde  <kirit@felspar.com>
+ Add a middleware that logs the HTTP request details and some response details.
+
+2016-09-04  Kirit Saelensminde  <kirit@felspar.com>
+ `fost.view.pathprefix` can now take an embedded configuration.
+
+2016-07-30  Kirit Saelensminde  <kirit@felspar.com>
+ `fost.response.401` can now be given an inner view for the response data.
+
+2016-07-29  Kirit Saelensminde  <kirit@felspar.com>
+ Add middleware that can alter the request by adding headers to it.
+
+2016-07-27  Kirit Saelensminde  <kirit@felspar.com>
+ Add `execute` method to the view to make forwarding to embedded views easier.
+
+2016-07-26  Kirit Saelensminde  <kirit@felspar.com>
+ Add a basic 401 response.
+
+2016-07-15  Kirit Saelensminde  <kirit@felspar.com>
+ * Improve some diagnostic output whilst loading.
+ * Include configuration files for various logging levels.
+
+2016-06-11  Kirit Saelensminde  <kirit@felspar.com>
+ Show type information for caught `std::exception` instances.
+
+2016-05-29  Kirit Saelensminde  <kirit@felspar.com>
+ Improve error display and add logging of errors.
+
+2016-02-28  Kirit Saelensminde  <kirit@felspar.com>
+ Allow multiple configuration files to be loaded by the web server and explicitly load up the logging options.
+
+2016-02-10  Yothin Muangsommuk  <yothin@proteus-tech.com>
+ Added Date, Expires to static response headers.
+
+2016-02-08  Yothin Muangsommuk  <yothin@proteus-tech.com>
+ Implemented 304 response.
+
+2015-11-20  Kirit Saelensminde  <kirit@felspar.com>
+ Removed use of deprecated Fost APIs.
+
+2015-09-07  Kirit Saelensminde  <kirit@felspar.com>
+ Add the ability for the static view to handle DELETE requests when it's configuration includes `"verbs": {"DELETE": true}`
+
+2015-05-10  Kirit Saelensminde  <kirit@felspar.com>
+ Remove uses of auto_ptr.
+
+2015-04-12  Kirit Saelensminde  <kirit@felspar.com>
+ Add MIME type for SVG files.
+
+2015-02-25  Kirit Saelensminde  <kirit@felspar.com>
+ Added a generic 403 handler.
+
+2014-11-27  Kirit Saelensminde  <kirit@felspar.com>
+ Allow web server views to have their own specific setting values.
+
+2014-08-16  Kirit Saelensminde  <kirit@felspar.com>
+ Change the web server code to use the new JSON formatted configuration file options. Use command line parameters to control all of the port, host binding and the MIME type configuration.
+
+2014-05-31  Kirit Saelensminde  <kirit@felspar.com>
+ Remove logging from the router as it interferes with loaded views trying to manage logging options.
+
+2014-03-02  Kirit Saelensminde  <kirit@felspar.com>
+ Split out the top level HTTP parsing from the lower level routing of a request to a view.
+
+2012-08-02  Kirit Saelensminde  <kirit@felspar.com>
+ Implemented a proper 301, 302, 303, 405, 500 and 501 responses.
+
+2012-07-06  Kirit Saelensminde  <kirit@felspar.com>
+ Added an `all` target so it's compatible with other projects.
+
+2012-07-05  Kirit Saelensminde  <kirit@felspar.com>
+ Changed the logging to use JSON objects rather than arrays.
+
+2012-04-08  Kirit Saelensminde  <kirit@felspar.com>
+ Added support for Windows build.
+
+2012-04-07  Kirit Saelensminde  <kirit@felspar.com>
+ Switched away from the use of crack to make use of a special search for the inner content in the template middleware for about 17-18% speed up.
+ Switched away from replaceAll to using the string's replace() method for a further 12-14% speed up.
+
+2012-03-04  Kirit Saelensminde  <kirit@felspar.com>
+ Added a 412 response.
+
+2012-03-03  Kirit Saelensminde  <kirit@felspar.com>
+ A default host configuration can now be set up using an empty host name key in the hosts configuration location.
+
+2012-01-28  Kirit Saelensminde  <kirit@felspar.com>
+ Added ChangeLog
+ Added a path which can be re-written by views acting as middleware.
