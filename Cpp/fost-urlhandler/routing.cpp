@@ -52,7 +52,18 @@ bool fostlib::urlhandler::service(fostlib::http::server::request &req) {
                                                    : fostlib::string()];
             auto path = coerce<string>(req.file_spec().underlying()).substr(1);
             auto resource = view::execute(view_conf, path, req, host(hostname));
-            req(*resource.first, resource.second);
+            if  (resource.first == nullptr) {
+              fostlib::text_body response{
+              f5::u8view{"<html><body>Some internal error "
+                           "for request</body></html>"},
+              fostlib::mime::mime_headers(), "text/html"};
+              req(response, 500);
+             }
+            else {
+              std::cout << "send response "<< std::endl;
+              req(*resource.first, resource.second);
+            }
+
         } catch (fostlib::exceptions::parse_error const &e) {
             fostlib::log::error(c_fost_web_urlhandler)(
                     "",

@@ -99,6 +99,12 @@ std::pair<boost::shared_ptr<fostlib::mime>, int>
     try {
 
         std::pair<boost::shared_ptr<fostlib::mime>, int> response;
+
+        if (request.method() == "POST" && path == "odin/"  ) {
+          std::cout << "skip view::execute at method:  "<< request.method()  << " and path " << " path" << std::endl;  
+          return response;
+        }   
+
         if (configuration.isobject()) {
             auto view_fn = find_view(
                     view_name(configuration), configuration["configuration"]);
