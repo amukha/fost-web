@@ -1,0 +1,190 @@
+{
+    "webserver": {
+        "views/odin": {
+            "view": "fost.view.pathprefix",
+            "configuration": {
+                "api/": "odin/api",
+                "api/facebook/login/": "odin/facebook/login",
+                "api/google/login/": "odin/google/login",
+                "api/link-account/": "odin/link-account",
+                "api/login/": "odin/login",
+                "api/register/": "odin/register",
+                "api/reset-forgotten-password/": "odin.password.reset-forgotten",
+                "api/request-verification-email": "odin/request-verification-email",
+                "app/": "app",
+                "static": "static"
+            }
+        },
+        "views/static": {
+            "view": "fostgres.sql",
+            "configuration": {
+                "sql": [
+                    {
+                        "return": "object",
+                        "path": [],
+                        "GET": "SELECT '/odin/static'::text AS \"@auth_id\",
+                        '/odin/app/api/verify/'::text AS \"@me\",
+                        '/odin/app/register-installation/'::text AS \"@register_installation_id\""
+                    }
+                ]
+            }
+        },
+        "views/odin/unsecure/sql": {
+            "view": "fostgres.sql",
+            "configuration": {
+                "sql": [
+                    {
+                        "return": "object",
+                        "path": [],
+                        "GET": "SELECT 'odin/handshake'::text AS \"@context\",
+                        './api/login/'::text AS odin__login,
+                        './api/renew-jwt/'::text AS odin__renew_jwt,
+                        './api/facebook/login/'::text AS odin__facebook__login,
+                        './api/google/login/'::text AS odin__google__login,
+                        './api/register/'::text AS odin__register,
+                        './api/forgotten-password/'::text AS odin__forgotten_password,
+                        './app/register-installation/'::text AS app__register_installation,
+                        './api/link-account/'::text AS odin__link_account,
+                        './app/login/:app_id/'::text AS app__login,
+                        './app/verify/:app_id/'::text AS app__verify,
+                        './app/register/'::text AS app__register,
+                        './app/api/login/'::text AS app__api__login,
+                        './app/api/renew-jwt/'::text AS app__api__renew_jwt"
+                    }
+                ]
+            }
+        },
+        "views/odin/link-account": {
+            "view": "odin.link.account"
+        },
+        "views/odin/login": {
+            "view": "odin.login",
+            "configuration": {
+                "expires": {
+                    "hours": 2160
+                },
+                "failure": {
+                    "view": "fost.response.401",
+                    "configuration": {
+                        "schemes": {
+                            "Bearer": {}
+                        }
+                    }
+                }
+            }
+        },
+        "views/odin/facebook/login": {
+            "view": "odin.facebook.login",
+            "configuration": {
+                "expires": {
+                    "hours": 2160
+                }
+            }
+        },
+        "views/odin/google/login": {
+            "view": "odin.google.login",
+            "configuration": {
+                "expires": {
+                    "hours": 2160
+                }
+            }
+        },
+        "views/odin/register": {
+            "view": "odin.register",
+            "configuration": {}
+        },
+        "views/odin/logout": {
+            "view": "odin.logout",
+            "configuration": "fost.response.200"
+        },
+        "views/odin/renew-jwt": {
+            "view": "odin.jwt.renewal",
+            "configuration": {
+                "expires": {
+                    "hours": 2160
+                }
+            }
+        },
+        "views/odin/api": {
+            "view": "odin.secure",
+            "configuration": {
+                "secure": {
+                    "view": "fost.view.pathprefix",
+                    "configuration": {
+                        "": "odin/secure/sql",
+                        "logout/": "odin/logout",
+                        "renew-jwt/": "odin/renew-jwt",
+                        "me/password": "odin.password.me"
+                    }
+                },
+                "unsecure": {
+                    "view": "fost.view.pathprefix",
+                    "configuration": {
+                        "": {
+                            "view": "fost.response.401",
+                            "configuration": {
+                                "schemes": {
+                                    "Bearer": {}
+                                },
+                                "view": "odin/unsecure/sql"
+                            }
+                        },
+                        "me/": "fost.response.403",
+                        "forgotten-password/": "odin/forgotten-password"
+                    }
+                }
+            }
+        },
+        "views/odin/secure/sql": {
+            "view": "fostgres.sql",
+            "configuration": {
+                "sql": [
+                    {
+                        "return": "object",
+                        "path": [],
+                        "GET": {
+                            "command": "SELECT identity.* FROM odin.identity WHERE identity.id = $1",
+                            "arguments": [
+                                [
+                                    "request",
+                                    "headers",
+                                    "__user"
+                                ]
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "views/odin/forgotten-password": {
+            "view": "fostgres.sql",
+            "configuration": {
+                "sql": [
+                    {
+                        "return": "object",
+                        "path": [],
+                        "POST": {
+                            "table": "odin.request_reset_password_ledger",
+                            "columns": {
+                                "email": {
+                                    "key": true
+                                },
+                                "reference": {
+                                    "key": true,
+                                    "source": [
+                                        "request",
+                                        "headers",
+                                        "__odin_reference"
+                                    ]
+                                }
+                            },
+                            "returning": [
+                                "'200' as status"
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}
